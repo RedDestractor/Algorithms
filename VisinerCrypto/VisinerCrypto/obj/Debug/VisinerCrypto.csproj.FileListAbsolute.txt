@@ -1,0 +1,17 @@
+c:\users\misha&olya\source\repos\VisinerCrypto\VisinerCrypto\bin\Debug\VisinerCrypto.exe.config
+c:\users\misha&olya\source\repos\VisinerCrypto\VisinerCrypto\bin\Debug\VisinerCrypto.exe
+c:\users\misha&olya\source\repos\VisinerCrypto\VisinerCrypto\bin\Debug\VisinerCrypto.pdb
+c:\users\misha&olya\source\repos\VisinerCrypto\VisinerCrypto\bin\Debug\Xamarin.Forms.Core.dll
+c:\users\misha&olya\source\repos\VisinerCrypto\VisinerCrypto\bin\Debug\Xamarin.Forms.Platform.dll
+c:\users\misha&olya\source\repos\VisinerCrypto\VisinerCrypto\bin\Debug\Xamarin.Forms.Xaml.dll
+c:\users\misha&olya\source\repos\VisinerCrypto\VisinerCrypto\bin\Debug\Xamarin.Forms.Core.pdb
+c:\users\misha&olya\source\repos\VisinerCrypto\VisinerCrypto\bin\Debug\Xamarin.Forms.Core.xml
+c:\users\misha&olya\source\repos\VisinerCrypto\VisinerCrypto\bin\Debug\Xamarin.Forms.Platform.pdb
+c:\users\misha&olya\source\repos\VisinerCrypto\VisinerCrypto\bin\Debug\Xamarin.Forms.Xaml.pdb
+c:\users\misha&olya\source\repos\VisinerCrypto\VisinerCrypto\bin\Debug\Xamarin.Forms.Xaml.xml
+c:\users\misha&olya\source\repos\VisinerCrypto\VisinerCrypto\obj\Debug\VisinerCrypto.csprojResolveAssemblyReference.cache
+c:\users\misha&olya\source\repos\VisinerCrypto\VisinerCrypto\obj\Debug\VisinerCrypto.Properties.Resources.resources
+c:\users\misha&olya\source\repos\VisinerCrypto\VisinerCrypto\obj\Debug\VisinerCrypto.csproj.GenerateResource.Cache
+c:\users\misha&olya\source\repos\VisinerCrypto\VisinerCrypto\obj\Debug\VisinerCrypto.csproj.CoreCompileInputs.cache
+c:\users\misha&olya\source\repos\VisinerCrypto\VisinerCrypto\obj\Debug\VisinerCrypto.exe
+c:\users\misha&olya\source\repos\VisinerCrypto\VisinerCrypto\obj\Debug\VisinerCrypto.pdb
