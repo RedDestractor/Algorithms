@@ -45,9 +45,9 @@ namespace PriorityQueue
 
         public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
         {
-            foreach(var key in storage.Keys)
+            foreach (var key in storage.Keys)
             {
-                foreach(var value in storage[key])
+                foreach (var value in storage[key])
                 {
                     yield return new KeyValuePair<TKey, TValue>(key, value);
                 }
@@ -67,21 +67,22 @@ namespace PriorityQueue
             return default(TValue);
         }
 
-        public TValue Dequeue(TKey key)
+        public KeyValuePair<TKey, TValue> Dequeue()
         {
             if (IsEmpty)
                 throw new NullReferenceException("Queue is empty");
 
-            foreach (var queue in storage.Values)
+            foreach (var key in storage.Keys)
             {
-                if (queue.Count > 0)
+                if (storage[key].Count > 0)
                 {
                     Size--;
-                    return queue.Dequeue();
+                    var value = storage[key].Dequeue();
+                    return new KeyValuePair<TKey, TValue>(key, value);  
                 }
             }
 
-            return default(TValue);
+            return default(KeyValuePair<TKey, TValue>);
         }
 
         IEnumerator IEnumerable.GetEnumerator()
