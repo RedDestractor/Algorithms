@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using PriorityQueue;
 
 namespace HuffmanCoding
 {
-    class HuffmanCoding
+    public class HuffmanCoding
     {
-        static void Main(string[] args)
-        {
-        }
+        
     }
 }
