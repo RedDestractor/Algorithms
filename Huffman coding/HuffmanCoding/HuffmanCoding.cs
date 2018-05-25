@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HuffmanCoding
 {
-    class Program
+    class HuffmanCoding
     {
         static void Main(string[] args)
         {

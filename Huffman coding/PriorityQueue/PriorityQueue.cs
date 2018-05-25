@@ -89,21 +89,4 @@ namespace PriorityQueue
             throw new NotImplementedException();
         }
     }
-
-    public class Program
-    {
-        public static void Main()
-        {
-            var prioQueue = new PriorityQueue<int, string>(new DescendingComparer<int>());
-
-            prioQueue.Enqueue(1, "111");
-            prioQueue.Enqueue(1, "111");
-            prioQueue.Enqueue(2, "111");
-            prioQueue.Enqueue(2, "111");
-            prioQueue.Enqueue(3, "111");
-
-            foreach (var t in prioQueue)
-                Console.WriteLine(t);
-        }
-    }
 }
