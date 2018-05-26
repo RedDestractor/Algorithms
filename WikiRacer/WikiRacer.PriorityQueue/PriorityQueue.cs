@@ -13,8 +13,6 @@ namespace PriorityQueue
         {
             return y.CompareTo(x);
         }
-
-
     }
 
     public class PriorityQueue<TKey, TValue> : IEnumerable<KeyValuePair<TKey, TValue>>
@@ -80,7 +78,7 @@ namespace PriorityQueue
                 {
                     Size--;
                     var value = storage[key].Dequeue();
-                    return new KeyValuePair<TKey, TValue>(key, value);  
+                    return new KeyValuePair<TKey, TValue>(key, value);
                 }
             }
 
