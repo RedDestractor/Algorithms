@@ -40,15 +40,5 @@ namespace WikiRacer.Tests
                 }
             }
         }
-
-        [Test]
-        public void test_simple_parse()
-        {
-            var parser = new HtmlParser();
-            var document = parser.Parse("<p>The <b>sea otter</b> (<i>Enhydra lutris</i>) is a <a href=\"/wiki" +
-                                        "/Marine_mammal\" title=\"Marine mammal\">marine mammal</a><p>The <b>sea otter</b>" +
-                                        " (<i>Enhydra lutris</i>) is a <a href=\"/Marine_mammal\" title=\"Marine mammal\">wrong</a>");
-
-        }
     }
 }
