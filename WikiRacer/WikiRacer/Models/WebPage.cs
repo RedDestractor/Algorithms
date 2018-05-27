@@ -10,9 +10,9 @@ namespace WikiRacer
 {
     public class WebPage
     {
-        public string Content { get; set; }
-        public List<string> Links { get; set; }
-        public string Name { get; set; }
+        public string Content { get; private set; }
+        public List<string> Links { get; private set; }
+        public string Name { get; private set; }
 
         public WebPage(string content, string Url)
         {
@@ -22,9 +22,10 @@ namespace WikiRacer
             var document = parser.Parse(content);
 
             Links = document.Links
+                .Where(l => l as IHtmlAnchorElement != null)
                 .Select(l => (IHtmlAnchorElement)l)
                 .Where(l => l.PathName.StartsWith("/wiki/"))
-                .Select(x => x.ToString())
+                .Select(x => "https://en.wikipedia.org" + x.PathName)
                 .ToList();
 
             Name = Url;

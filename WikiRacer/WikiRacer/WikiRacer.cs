@@ -23,34 +23,47 @@ namespace WikiRacer
         public List<WebPage> GetLadder(WebPage startPage)
         {
             var stopWatch = new Stopwatch();
+
+
             stopWatch.Start();
 
             var result = new List<List<WebPage>>();
             var ladder = new List<WebPage>() { startPage };
-            
+
             priorityQueue.Enqueue(CountEqualLinks(ladder.Last(), endPage), ladder);
 
             while(!priorityQueue.IsEmpty)
             {
                 var currentLadder = priorityQueue.Dequeue().Value;
 
-                if(IsEndPageInCurrentLinks(currentLadder))
+                var currentPage = currentLadder.Last();
+
+                if (IsEndPageInCurrentLinks(currentLadder))
                 {
                     currentLadder.Add(endPage);
                     return currentLadder;
                 }
 
-                foreach(var link in currentLadder)
+                foreach(var link in currentPage.Links)
                 {
-                    var currentLadderCopy = new List<WebPage> (currentLadder);
-                    var neighbourPage = new WebPage(WebPageManager.GetPageToString(link.Name), link.Name);
-                    currentLadderCopy.Add(neighbourPage);
+                    var viewedLinks = new HashSet<string>();
 
-                    priorityQueue.Enqueue(CountEqualLinks(currentLadder.Last(), endPage), currentLadder);
+                    if(!priorityQueue.IsEmpty && IsEndPageInCurrentLinks(priorityQueue.Peek()))
+                    {
+                        return priorityQueue.Peek();
+                    }
+                    if (!viewedLinks.Contains(link))
+                    {
+                        viewedLinks.Add(link);
+                        var currentLadderCopy = new List<WebPage>(currentLadder);
+                        var neighbourPage = new WebPage(WebPageManager.GetPageToString(link), link);
+                        currentLadderCopy.Add(neighbourPage);
+                        priorityQueue.Enqueue(CountEqualLinks(currentLadderCopy.Last(), endPage), currentLadderCopy);
+                    }                    
                 }
 
-                if(stopWatch.Elapsed.Seconds > 35) 
-                    return null;
+                //if(stopWatch.Elapsed.Seconds > 35) 
+                //    return null;
             }
 
             return null;
@@ -63,7 +76,7 @@ namespace WikiRacer
 
         private bool IsEndPageInCurrentLinks(List<WebPage> currentPageLadder)
         {
-            return currentPageLadder.Exists(x => x .Name == endPage.Name);
+            return currentPageLadder.Exists(x => x.Name == endPage.Name);
         }
     }
 }
