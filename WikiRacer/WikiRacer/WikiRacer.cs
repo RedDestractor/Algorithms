@@ -23,10 +23,7 @@ namespace WikiRacer
         public List<WebPage> GetLadder(WebPage startPage)
         {
             var stopWatch = new Stopwatch();
-
-
             stopWatch.Start();
-
             var result = new List<List<WebPage>>();
             var ladder = new List<WebPage>() { startPage };
 
@@ -35,7 +32,6 @@ namespace WikiRacer
             while(!priorityQueue.IsEmpty)
             {
                 var currentLadder = priorityQueue.Dequeue().Value;
-
                 var currentPage = currentLadder.Last();
 
                 if (IsEndPageInCurrentLinks(currentLadder))
@@ -62,10 +58,9 @@ namespace WikiRacer
                     }                    
                 }
 
-                //if(stopWatch.Elapsed.Seconds > 35) 
-                //    return null;
+                if (stopWatch.Elapsed.Seconds > 100)
+                    return null;
             }
-
             return null;
         }
 
