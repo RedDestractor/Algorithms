@@ -1,0 +1,117 @@
+﻿<Window x:Class="Calculator.App.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Calculator.App"
+        mc:Ignorable="d"
+        Title="CalculatorApp" Height="500" Width="300">
+    <Window.Background>
+        <SolidColorBrush Color="Coral" />
+    </Window.Background>
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Style.Setters>
+                <Setter Property="Button.FontStretch" Value="Normal"/>
+                <Setter Property="Button.FontSize" Value="20"/>
+                <Setter Property="Button.Margin" Value="2,2,2,2"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Border Background="{TemplateBinding Background}" BorderBrush="Firebrick" BorderThickness="1">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Button.Background" Value="Orchid" />
+                                    <Setter Property="Margin" Value="0,0,0,0"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <EventSetter Event="Button.Click" Handler="Button_Click" />
+            </Style.Setters>
+        </Style>
+        <Style x:Key="InstructionButton" TargetType="Button">
+            <Style.Setters>
+                <Setter Property="Button.FontStretch" Value="Normal"/>
+                <Setter Property="Button.FontSize" Value="14"/>
+                <Setter Property="Button.Margin" Value="1,1,1,1"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Border 
+                                Background="{TemplateBinding Background}" 
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="7" BorderBrush="Firebrick">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="PaleGoldenrod" />
+                                    <Setter Property="Margin" Value="0,0,0,0"/>
+                                    <Setter Property="BorderThickness" Value="2,2,2,2"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style.Setters>
+        </Style>
+    </Window.Resources>
+    <Grid x:Name="buttonsGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="150*"/>
+            <RowDefinition Height="43*"/>
+            <RowDefinition Height="42*"/>
+            <RowDefinition Height="43*"/>
+            <RowDefinition Height="42*"/>
+            <RowDefinition Height="43*"/>
+            <RowDefinition Height="42*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="80*"/>
+            <ColumnDefinition Width="80*"/>
+            <ColumnDefinition Width="79*"/>
+            <ColumnDefinition Width="54*"/>
+            <ColumnDefinition Width="51*"/>
+        </Grid.ColumnDefinitions>
+        <TextBox x:Name="textBox"
+                 IsEnabled="True" 
+                 Focusable="True" 
+                 PreviewTextInput="TextBox_PreviewTextInput" 
+                 PreviewKeyDown="TextBox_PreviewKeyDown" 
+                 FontStretch="Normal" 
+                 FontSize="30" 
+                 HorizontalAlignment="Stretch" 
+                 TextWrapping="Wrap" 
+                 VerticalAlignment="Top" 
+                 Margin="0,0,0,0"
+                 Grid.ColumnSpan="5" 
+                 Grid.Row="0"
+                 Grid.Column="0"
+                 Background="Bisque"
+                 FontStyle="Italic"
+                 Foreground="Firebrick"
+                 />
+        <Button Content="=" Grid.Row="1" Grid.ColumnSpan="3" Click="Button_GetResult" Style="{DynamicResource InstructionButton}" Margin="1,0.6,1,1"/>
+        <Button Content="CLEAR" Grid.Column="1" Grid.Row="2" Click="Button_Clear" Style="{DynamicResource InstructionButton}" Margin="0,0,2,0.8"/>
+        <Button Content="+" Grid.Column="3" Grid.Row="1" Grid.ColumnSpan="2"/>
+        <Button Content="-" Grid.Column="3" Grid.Row="2" Grid.ColumnSpan="2"/>
+        <Button Content="*" Grid.Column="3" Grid.Row="4" Grid.ColumnSpan="2"/>
+        <Button Content="/" Grid.Column="3" Grid.Row="3" Grid.ColumnSpan="2"/>
+        <Button Content="(" Grid.Column="3" Grid.Row="5" Grid.ColumnSpan="2"/>
+        <Button Content=")" Grid.Column="3" Grid.Row="6" Grid.ColumnSpan="2"/>
+        <Button Content="8" Grid.Row="3"  Grid.Column="1"/>
+        <Button Content="7" Grid.Row="3"/>
+        <Button Content="9" Grid.Row="3" Grid.Column="2"/>
+        <Button Content="4" Grid.Row="4"/>
+        <Button Content="5" Grid.Row="4" Grid.Column="1"/>
+        <Button Content="6" Grid.Row="4" Grid.Column="2"/>
+        <Button Content="1" Grid.Row="5"/>
+        <Button Content="2" Grid.Row="5" Grid.Column="1"/>
+        <Button Content="3" Grid.Row="5" Grid.Column="2"/>
+        <Button Content="0" Grid.Row="6" Grid.Column="1"/>
+    </Grid>
+</Window>
