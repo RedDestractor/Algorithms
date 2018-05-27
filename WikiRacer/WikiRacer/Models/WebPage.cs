@@ -10,8 +10,9 @@ namespace WikiRacer
 {
     public class WebPage
     {
-        public string Content { get; private set; }
-        public List<string> Links { get; private set; }
+        public string Content { get; set; }
+        public List<string> Links { get; set; }
+        public string Name { get; set; }
 
         public WebPage(string content)
         {
@@ -20,7 +21,13 @@ namespace WikiRacer
             var parser = new HtmlParser();
             var document = parser.Parse(content);
 
-            Links = document.Links.Select(l => (IHtmlAnchorElement)l).Where(l => l.PathName.StartsWith("/wiki/")).Select(l => l.Title).ToList();
+            Links = document.Links
+                .Select(l => (IHtmlAnchorElement)l)
+                .Where(l => l.PathName.StartsWith("/wiki/"))
+                .Select(x => x.ToString())
+                .ToList();
+
+            Name = document.Url;
         }
     }
 }

@@ -11,29 +11,10 @@ namespace WikiRacer
 {
     public static class WebPageManager
     {
-        public static void GetPage(string ouputFileName, string page)
+        public static string GetPageToString(string Uri)
         {
             WebClient client = new WebClient();
-            var fullPath = FileManager.CreateFile(ouputFileName);
-            client.DownloadFileAsync(new Uri(page), fullPath);
-        }
-
-        public static int CountEqualLinks(WebPage currentPage, WebPage endPage)
-        {
-            return currentPage.Links.Intersect(endPage.Links).Count();
-        }
-
-        public static GetPriorityQueue()
-        {
-            var endPage = "";
-            var priorityQueue = new PriorityQueue<WebPage, WebPage>(QueueComparer<WebPage>.Create((WebPage firstPage, WebPage secondPage) =>
-            {
-                if(firstPage.Content == endPage)
-                {
-
-                }
-                return 1;
-            }));
+            return client.DownloadString(new Uri(Uri));
         }
     }
 }
