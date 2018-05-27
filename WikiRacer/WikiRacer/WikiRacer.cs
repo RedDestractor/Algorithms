@@ -1,6 +1,7 @@
 ﻿using PriorityQueue;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,7 +11,7 @@ namespace WikiRacer
 {
     public class WikiRacer
     {
-        private PriorityQueue<int, WebPage> priorityQueue;
+        private PriorityQueue<int, List<WebPage>> priorityQueue;
         private WebPage endPage;
 
         public WikiRacer(WebPage endPage)
@@ -19,32 +20,40 @@ namespace WikiRacer
             var priorityQueue = new PriorityQueue<int, WebPage>(new DescendingComparer<int>());
         }
 
-        public List<WebPage> GetLadder(WebPage startPage, List<WebPage> ladder)
+        public List<WebPage> GetLadder(WebPage startPage)
         {
-            var result = new List<WebPage>();
-            priorityQueue.Enqueue(CountEqualLinks(startPage, endPage), startPage);
+            var stopWatch = new Stopwatch();
+            stopWatch.Start();
+
+            var result = new List<List<WebPage>>();
+            var ladder = new List<WebPage>() { startPage };
+            
+            priorityQueue.Enqueue(CountEqualLinks(ladder.Last(), endPage), ladder);
 
             while(!priorityQueue.IsEmpty)
             {
-                var currentPage = priorityQueue.Dequeue().Value;
+                var currentLadder = priorityQueue.Dequeue().Value;
 
-                //var links = currentPage.Value.Links;
-
-                if(IsEndPageInCurrentLinks(currentPage))
+                if(IsEndPageInCurrentLinks(currentLadder))
                 {
-                    result.Add(endPage);
-                    return result;
+                    currentLadder.Add(endPage);
+                    return currentLadder;
                 }
 
-                foreach(var link in currentPage.Links)
+                foreach(var link in currentLadder)
                 {
-                    var neighbourPage = new WebPage(WebPageManager.GetPageToString(link));
-                    //result.Add(new WebPage {   }
+                    var currentLadderCopy = new List<WebPage> (currentLadder);
+                    var neighbourPage = new WebPage(WebPageManager.GetPageToString(link.Name));
+                    currentLadder.Add(neighbourPage);
+
+                    priorityQueue.Enqueue(CountEqualLinks(currentLadder.Last(), endPage), currentLadder);
                 }
 
-                return new List<WebPage>();
+                if(stopWatch.Elapsed.Seconds > 35) 
+                    return null;
             }
 
+            return null;
         }
 
         private int CountEqualLinks(WebPage currentPage, WebPage endPage)
@@ -52,9 +61,9 @@ namespace WikiRacer
             return currentPage.Links.Intersect(endPage.Links).Count();
         }
 
-        private bool IsEndPageInCurrentLinks(WebPage currentPage)
+        private bool IsEndPageInCurrentLinks(List<WebPage> currentPageLadder)
         {
-            return currentPage.Links.Exists(x => x == endPage.Name);
+            return currentPageLadder.Exists(x => x .Name == endPage.Name);
         }
     }
 }
