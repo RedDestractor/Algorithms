@@ -14,7 +14,7 @@ namespace WikiRacer
         public List<string> Links { get; set; }
         public string Name { get; set; }
 
-        public WebPage(string content)
+        public WebPage(string content, string Url)
         {
             Content = content;
 
@@ -27,7 +27,7 @@ namespace WikiRacer
                 .Select(x => x.ToString())
                 .ToList();
 
-            Name = document.Url;
+            Name = Url;
         }
     }
 }

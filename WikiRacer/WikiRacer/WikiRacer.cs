@@ -17,7 +17,7 @@ namespace WikiRacer
         public WikiRacer(WebPage endPage)
         {
             this.endPage = endPage;
-            var priorityQueue = new PriorityQueue<int, WebPage>(new DescendingComparer<int>());
+            this.priorityQueue = new PriorityQueue<int, List<WebPage>>(new DescendingComparer<int>());
         }
 
         public List<WebPage> GetLadder(WebPage startPage)
@@ -43,8 +43,8 @@ namespace WikiRacer
                 foreach(var link in currentLadder)
                 {
                     var currentLadderCopy = new List<WebPage> (currentLadder);
-                    var neighbourPage = new WebPage(WebPageManager.GetPageToString(link.Name));
-                    currentLadder.Add(neighbourPage);
+                    var neighbourPage = new WebPage(WebPageManager.GetPageToString(link.Name), link.Name);
+                    currentLadderCopy.Add(neighbourPage);
 
                     priorityQueue.Enqueue(CountEqualLinks(currentLadder.Last(), endPage), currentLadder);
                 }

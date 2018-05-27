@@ -40,5 +40,24 @@ namespace WikiRacer.Tests
                 }
             }
         }
+
+        [Test]
+        public void test_fruit_strawberry_ladder()
+        {
+            var firstPageLink = "https://en.wikipedia.org/wiki/Fruit";
+            var endPageLink = "https://en.wikipedia.org/wiki/Strawberry";
+
+            var startPage = new WebPage(WebPageManager.GetPageToString(firstPageLink), firstPageLink);
+            var endPage = new WebPage(WebPageManager.GetPageToString(endPageLink), endPageLink);
+
+            var expected = new List<WebPage>()
+            {
+                startPage,
+                endPage
+            };
+
+            var wikiRacer = new WikiRacer(endPage);
+            var result = wikiRacer.GetLadder(startPage);
+        }
     }
 }
