@@ -45,9 +45,8 @@ namespace WikiRacer
                     var viewedLinks = new HashSet<string>();
 
                     if(!priorityQueue.IsEmpty && IsEndPageInCurrentLinks(priorityQueue.Peek()))
-                    {
                         return priorityQueue.Peek();
-                    }
+
                     if (!viewedLinks.Contains(link))
                     {
                         viewedLinks.Add(link);
