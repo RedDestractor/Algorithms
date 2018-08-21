@@ -19,44 +19,44 @@ namespace Calling_Circles
             sccList = new List<List<Vertex>>();
             stack = new Stack<Vertex>();
 
-            foreach (Vertex v in graphInput)
+            foreach (Vertex vertex in graphInput)
             {
-                if (v.index < 0)
+                if (vertex.index < 0)
                 {
-                    StrongConnect(v);
+                    StrongConnect(vertex);
                 }
             }
         }
 
-        private void StrongConnect(Vertex v)
+        private void StrongConnect(Vertex vertex)
         {
-            v.index = index;
-            v.lowlink = index;
+            vertex.index = index;
+            vertex.lowlink = index;
             index++;
-            stack.Push(v);
+            stack.Push(vertex);
 
-            foreach (Vertex neighbor in v.neighbors)
+            foreach (Vertex neighbor in vertex.neighbors)
             {
                 if (neighbor.index < 0)
                 {
                     StrongConnect(neighbor);
-                    v.lowlink = Math.Min(v.lowlink, neighbor.lowlink);
+                    vertex.lowlink = Math.Min(vertex.lowlink, neighbor.lowlink);
                 }
                 else if (stack.Contains(neighbor))
                 {
-                    v.lowlink = Math.Min(v.lowlink, neighbor.index);
+                    vertex.lowlink = Math.Min(vertex.lowlink, neighbor.index);
                 }
             }
 
-            if (v.lowlink == v.index)
+            if (vertex.lowlink == vertex.index)
             {
                 List<Vertex> currentScc = new List<Vertex>();
-                Vertex w;
+                Vertex current;
                 do
                 {
-                    w = stack.Pop();
-                    currentScc.Add(w);
-                } while (w != v);
+                    current = stack.Pop();
+                    currentScc.Add(current);
+                } while (current != vertex);
 
                 sccList.Add(currentScc);
             }
