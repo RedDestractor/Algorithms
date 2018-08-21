@@ -52,7 +52,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConsoleWrapper.cs" />
     <Compile Include="IConsole.cs" />
     <Compile Include="CallingCircles.cs" />
     <Compile Include="Program.cs" />

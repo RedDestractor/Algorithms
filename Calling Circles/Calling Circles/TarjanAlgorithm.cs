@@ -14,7 +14,7 @@ namespace Calling_Circles
         private Stack<Vertex> stack;
         private int index;
 
-        public TarjanAlgorithm(List<Vertex> graphInput)
+        public TarjanAlgorithm(IEnumerable<Vertex> graphInput)
         {
             sccList = new List<List<Vertex>>();
             stack = new Stack<Vertex>();

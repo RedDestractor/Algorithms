@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -34,12 +35,13 @@ namespace Calling_Circles
                 }                
             }
             consoleWrapper.WriteLine(resultRow.ToString());
+
             return resultRow.ToString();
         }
 
-        private List<Vertex> GetGraphFromConsole()
+        private IEnumerable<Vertex> GetGraphFromConsole()
         {
-            var graph = new List<Vertex>();
+            var vertexDictionary = new Dictionary<string, Vertex>();
             var idCount = 1;
             string input = null;
 
@@ -54,24 +56,50 @@ namespace Calling_Circles
 
                 var vertexName = input.Split(' ')[0];
                 var neighborName = input.Split(' ')[1];
-                var vertex = graph.Find(x => x.name == vertexName);
-                var neighborVertex = graph.Find(x => x.name == neighborName);
+                Vertex vertex;
+                Vertex neighborVertex;
 
-                if (vertex == null)
+                if (!vertexDictionary.ContainsKey(vertexName))
                 {
                     vertex = new Vertex() { id = idCount++, name = vertexName };
-                    graph.Add(vertex);
+                    vertexDictionary[vertexName] = vertex;
                 }
-                if (neighborVertex == null)
+                else
+                {
+                    vertex = vertexDictionary[vertexName];
+                }
+                if (!vertexDictionary.ContainsKey(neighborName))
                 {
                     neighborVertex = new Vertex() { id = idCount++, name = neighborName };
-                    graph.Add(neighborVertex);
+                    vertexDictionary[neighborName] = neighborVertex;
+                }
+                else
+                {
+                    neighborVertex = vertexDictionary[neighborName];
                 }
 
                 vertex.neighbors.Add(neighborVertex);
             }
 
-            return graph;
+            return vertexDictionary.Select(x => x.Value);
         }
-    }  
+    }
+
+    public class ConsoleWrapper : IConsole
+    {
+        public void Write(string message)
+        {
+            Console.Write(message);
+        }
+
+        public void WriteLine(string message)
+        {
+            Console.WriteLine(message);
+        }
+
+        public string ReadLine()
+        {
+            return Console.ReadLine();
+        }
+    }
 }
