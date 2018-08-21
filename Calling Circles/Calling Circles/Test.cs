@@ -7,31 +7,6 @@ using System.Threading.Tasks;
 
 namespace Calling_Circles
 {
-    public class ConsoleWrapperTest : IConsole
-    {
-        public List<String> linesToRead;
-
-        public ConsoleWrapperTest(List<String> input)
-        {
-            linesToRead = input;
-        }
-
-        public void Write(string message)
-        {
-        }
-
-        public void WriteLine(string message)
-        {
-        }
-
-        public string ReadLine()
-        {
-            string result = linesToRead[0];
-            linesToRead.RemoveAt(0);
-            return result;
-        }
-    }
-
     public class Test
     {
         [Test]
@@ -96,6 +71,31 @@ namespace Calling_Circles
 
             Assert.AreEqual("Patrick, Ben, George, Alexander, Stephen, Martha, Paul\r\n" +
                 "Dolly, Ringo, Betsy, John\r\n" , result);
+        }
+    }
+
+    public class ConsoleWrapperTest : IConsole
+    {
+        public List<String> linesToRead;
+
+        public ConsoleWrapperTest(List<String> input)
+        {
+            linesToRead = input;
+        }
+
+        public void Write(string message)
+        {
+        }
+
+        public void WriteLine(string message)
+        {
+        }
+
+        public string ReadLine()
+        {
+            string result = linesToRead[0];
+            linesToRead.RemoveAt(0);
+            return result;
         }
     }
 }
