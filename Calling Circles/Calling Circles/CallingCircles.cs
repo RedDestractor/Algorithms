@@ -18,7 +18,8 @@ namespace Calling_Circles
 
         public string GetCallCircles()
         {
-            var graph = GetGraphFromConsole();
+            var data = GetDataFromConsole();
+            var graph = GetGraphFromData(data);
             var tarjan = new TarjanAlgorithm(graph);
             var resultRow = new StringBuilder();
 
@@ -38,23 +39,33 @@ namespace Calling_Circles
             return resultRow.ToString();
         }
 
-        private IEnumerable<Vertex> GetGraphFromConsole()
+        private IEnumerable<(string vertexName, string neiborName)> GetDataFromConsole()
         {
-            var vertexDictionary = new Dictionary<string, Vertex>();
-            var idCount = 1;
             string input = null;
 
             while (true)
             {
                 input = consoleWrapper.ReadLine();
 
-                if(input == "")
+                if (input == "")
                 {
                     break;
                 }
 
                 var vertexName = input.Split(' ')[0];
                 var neighborName = input.Split(' ')[1];
+
+                yield return (vertexName, neighborName);
+            }            
+        }
+
+        private IEnumerable<Vertex> GetGraphFromData(IEnumerable<(string vertexName, string neiborName)> valuePair)
+        {
+            var vertexDictionary = new Dictionary<string, Vertex>();
+            var idCount = 1;
+
+            foreach((string vertexName, string neighborName) in valuePair)
+            { 
                 Vertex vertex;
                 Vertex neighborVertex;
 
