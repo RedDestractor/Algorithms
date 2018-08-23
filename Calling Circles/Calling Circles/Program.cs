@@ -11,6 +11,8 @@ namespace Calling_Circles
         public static void Main()
         {
             var result = new CallingCircles(new ConsoleWrapper()).GetCallCircles();
+
+            Console.WriteLine(result);
         }
     }
 }

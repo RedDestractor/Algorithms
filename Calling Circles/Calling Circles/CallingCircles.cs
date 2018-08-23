@@ -34,7 +34,6 @@ namespace Calling_Circles
                     resultRow.AppendLine();
                 }                
             }
-            consoleWrapper.WriteLine(resultRow.ToString());
 
             return resultRow.ToString();
         }
