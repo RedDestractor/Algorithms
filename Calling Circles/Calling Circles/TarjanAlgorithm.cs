@@ -1,27 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Calling_Circles
 {
     //https://en.wikipedia.org/wiki/Tarjan's_strongly_connected_components_algorithm
     public class TarjanAlgorithm
     {
-        public List<List<Vertex>> sccList;
+        public readonly List<List<Vertex>> SccList;
 
-        private Stack<Vertex> stack;
-        private int index;
+        private readonly Stack<Vertex> _stack;
+        private int _index;
 
         public TarjanAlgorithm(IEnumerable<Vertex> graphInput)
         {
-            sccList = new List<List<Vertex>>();
-            stack = new Stack<Vertex>();
+            SccList = new List<List<Vertex>>();
+            _stack = new Stack<Vertex>();
 
-            foreach (Vertex vertex in graphInput)
+            foreach (var vertex in graphInput)
             {
-                if (vertex.index < 0)
+                if (vertex.Index < 0)
                 {
                     StrongConnect(vertex);
                 }
@@ -30,35 +27,35 @@ namespace Calling_Circles
 
         private void StrongConnect(Vertex vertex)
         {
-            vertex.index = index;
-            vertex.lowlink = index;
-            index++;
-            stack.Push(vertex);
+            vertex.Index = _index;
+            vertex.Lowlink = _index;
+            _index++;
+            _stack.Push(vertex);
 
-            foreach (Vertex neighbor in vertex.neighbors)
+            foreach (var neighbor in vertex.Neighbors)
             {
-                if (neighbor.index < 0)
+                if (neighbor.Index < 0)
                 {
                     StrongConnect(neighbor);
-                    vertex.lowlink = Math.Min(vertex.lowlink, neighbor.lowlink);
+                    vertex.Lowlink = Math.Min(vertex.Lowlink, neighbor.Lowlink);
                 }
-                else if (stack.Contains(neighbor))
+                else if (_stack.Contains(neighbor))
                 {
-                    vertex.lowlink = Math.Min(vertex.lowlink, neighbor.index);
+                    vertex.Lowlink = Math.Min(vertex.Lowlink, neighbor.Index);
                 }
             }
 
-            if (vertex.lowlink == vertex.index)
+            if (vertex.Lowlink == vertex.Index)
             {
-                List<Vertex> currentScc = new List<Vertex>();
+                var currentScc = new List<Vertex>();
                 Vertex current;
                 do
                 {
-                    current = stack.Pop();
+                    current = _stack.Pop();
                     currentScc.Add(current);
                 } while (current != vertex);
 
-                sccList.Add(currentScc);
+                SccList.Add(currentScc);
             }
         }
     }

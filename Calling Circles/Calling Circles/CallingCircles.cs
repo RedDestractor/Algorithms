@@ -1,35 +1,32 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Calling_Circles
 {
-    class CallingCircles
+    internal class CallingCircles
     {
-        IConsole consoleWrapper;
+        private readonly IConsole _consoleWrapper;
 
         public CallingCircles(IConsole console)
         {
-            consoleWrapper = console;
+            _consoleWrapper = console;
         }
 
         public string GetCallCircles()
         {
             var data = GetDataFromConsole();
             var graph = GetGraphFromData(data);
-            var tarjan = new TarjanAlgorithm(graph);
             var resultRow = new StringBuilder();
 
-            foreach (var list in tarjan.sccList)
+            foreach (var list in new TarjanAlgorithm(graph).SccList)
             {
                 if (list.Count > 1)
                 {
                     foreach (var vertex in list)
                     {
-                        resultRow.Append($"{vertex.name}, ");
+                        resultRow.Append($"{vertex.Name}, ");
                     }
                     resultRow.Remove(resultRow.Length - 2, 2);
                     resultRow.AppendLine();
@@ -41,11 +38,9 @@ namespace Calling_Circles
 
         private IEnumerable<(string vertexName, string neiborName)> GetDataFromConsole()
         {
-            string input = null;
-
             while (true)
             {
-                input = consoleWrapper.ReadLine();
+                var input = _consoleWrapper.ReadLine();
 
                 if (input == "")
                 {
@@ -64,23 +59,24 @@ namespace Calling_Circles
             var vertexDictionary = new Dictionary<string, Vertex>();
             var idCount = 1;
 
-            foreach((string vertexName, string neighborName) in valuePair)
+            foreach(var (vertexName, neighborName) in valuePair)
             { 
                 Vertex vertex;
                 Vertex neighborVertex;
 
                 if (!vertexDictionary.ContainsKey(vertexName))
                 {
-                    vertex = new Vertex() { id = idCount++, name = vertexName };
+                    vertex = new Vertex() { Id = idCount++, Name = vertexName };
                     vertexDictionary[vertexName] = vertex;
                 }
                 else
                 {
                     vertex = vertexDictionary[vertexName];
                 }
+
                 if (!vertexDictionary.ContainsKey(neighborName))
                 {
-                    neighborVertex = new Vertex() { id = idCount++, name = neighborName };
+                    neighborVertex = new Vertex() {Id = idCount++, Name = neighborName};
                     vertexDictionary[neighborName] = neighborVertex;
                 }
                 else
@@ -88,7 +84,7 @@ namespace Calling_Circles
                     neighborVertex = vertexDictionary[neighborName];
                 }
 
-                vertex.neighbors.Add(neighborVertex);
+                vertex.Neighbors.Add(neighborVertex);
             }
 
             return vertexDictionary.Select(x => x.Value);

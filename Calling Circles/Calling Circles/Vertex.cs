@@ -1,31 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Calling_Circles
 {
     public class Vertex
     {
-        public int id;
-        public int index;
-        public int lowlink;
-        public string name;
-        public HashSet<Vertex> neighbors;
+        public int Id { get; set; }
+        public int Index { get; set; }
+        public int Lowlink { get; set; }
+        public string Name { get; set; }
+        public HashSet<Vertex> Neighbors { get; }
 
         public Vertex()
         {
-            id = -1;
-            index = -1;
-            lowlink = -1;
-            name = null;
-            neighbors = new HashSet<Vertex>();
+            Id = -1;
+            Index = -1;
+            Lowlink = -1;
+            Name = null;
+            Neighbors = new HashSet<Vertex>();
         }
 
         public override int GetHashCode()
         {
-            return id.GetHashCode() ^ name.GetHashCode();
+            return Id.GetHashCode() ^ Name.GetHashCode();
         }
 
         public override bool Equals(object obj)
@@ -35,7 +31,7 @@ namespace Calling_Circles
             if (!(obj is Vertex other))
                 return false;
 
-            return id == other.id && name == other.name;
+            return Id == other.Id && Name == other.Name;
         }
     }
 }

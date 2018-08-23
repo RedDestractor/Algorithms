@@ -1,9 +1,5 @@
 ﻿using NUnit.Framework;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Calling_Circles
 {
@@ -12,7 +8,7 @@ namespace Calling_Circles
         [Test]
         public void TestSimple()
         {
-            var dataMock = new List<String>
+            var dataMock = new List<string>
             {
                 "Ben Alexander",
                 "Alexander Dolly",
@@ -23,9 +19,7 @@ namespace Calling_Circles
                 ""
             };
 
-            var callinCirles = new CallingCircles(new ConsoleWrapperTest(dataMock));
-
-            var result = callinCirles.GetCallCircles();
+            var result = new CallingCircles(new ConsoleWrapperTest(dataMock)).GetCallCircles();
 
             Assert.AreEqual("Benedict, Dolly, Alexander, Ben\r\n", result);
         }
@@ -33,7 +27,7 @@ namespace Calling_Circles
         [Test]
         public void TestHard()
         {
-            var dataMock = new List<String>
+            var dataMock = new List<string>
             {
                 "John Aaron",
                 "Aaron Benedict",
@@ -69,9 +63,7 @@ namespace Calling_Circles
                 ""
             };
 
-            var callinCirles = new CallingCircles(new ConsoleWrapperTest(dataMock));
-
-            var result = callinCirles.GetCallCircles();
+            var result = new CallingCircles(new ConsoleWrapperTest(dataMock)).GetCallCircles();
 
             Assert.AreEqual("Patrick, Ben, George, Alexander, Stephen, Martha, Paul\r\n" +
                 "Dolly, Ringo, Betsy, John\r\n" , result);
@@ -80,11 +72,11 @@ namespace Calling_Circles
 
     public class ConsoleWrapperTest : IConsole
     {
-        public List<String> linesToRead;
+        public List<string> LinesToRead { get; set; }
 
-        public ConsoleWrapperTest(List<String> input)
+        public ConsoleWrapperTest(List<string> input)
         {
-            linesToRead = input;
+            LinesToRead = input;
         }
 
         public void Write(string message)
@@ -97,8 +89,8 @@ namespace Calling_Circles
 
         public string ReadLine()
         {
-            string result = linesToRead[0];
-            linesToRead.RemoveAt(0);
+            var result = LinesToRead[0];
+            LinesToRead.RemoveAt(0);
             return result;
         }
     }
