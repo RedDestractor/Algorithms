@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DataParser.SyntaxTree;
 using Sprache;
 
 namespace DataParser
@@ -44,23 +45,36 @@ namespace DataParser
             from rest in AllowedChar.Many()
             select new string(first.Concat(rest).ToArray());
 
-        static readonly Parser<String> DataValue =
+        static readonly Parser<IDataValue> DataObject =
+            Parse.Ref(() => DataArray).Or(Parse.Ref(() => DataPair));
+
+        static readonly Parser<IDataLiteral> DataValue =
             from first in Parse.Char('"')
             from value in Parse.AnyChar.Except(Parse.Char('"').Or(ControlChar)).Many().Text()
             from last in Parse.Char('"')
-            select value;
+            select new DataLiteral(value);
 
-        static readonly Parser<KeyValuePair<string, string>> DataPair =
+        static readonly Parser<IDataValue> DataArray =
+            from name in DataName
+            from colon in Parse.Char('=').Token()
+            from _ in Parse.Char('{').Or(Parse.WhiteSpace).Many().Token()
+            from elements in DataRow
+            from last in Parse.Char('}').Or(Parse.WhiteSpace).Many().Token()
+            select new DataArray(elements);
+
+        static readonly Parser<IDataValue> DataPair =
             from name in DataName
             from colon in Parse.Char('=').Token()
             from val in DataValue
-            select new KeyValuePair<string, string>(name, val);
+            select new DataKeyValuePair(new DataLiteral(name), val);
 
-        static readonly Parser<IEnumerable<KeyValuePair<string, string>>> DataPairs = DataPair.DelimitedBy(Parse.LineEnd);
+        static readonly Parser<IEnumerable<IDataValue>> DataObjects = DataObject.DelimitedBy(Parse.LineEnd);
 
-        public static IEnumerable<KeyValuePair<string, string>> ParseData(string toParse)
+        static readonly Parser<IEnumerable<IDataValue>> DataRow = DataPair.DelimitedBy(Parse.WhiteSpace);        
+
+        public static IEnumerable<IDataValue> ParseData(string toParse)
         {
-            return DataPairs.Parse(toParse);
+            return DataObjects.Parse(toParse);
         }
     }
 }

@@ -6,7 +6,13 @@ using System.Threading.Tasks;
 
 namespace DataParser.SyntaxTree
 {
-    class DataList
+    class DataLiteral : IDataLiteral
     {
+        public string Value { get; set; }
+
+        public DataLiteral(string value)
+        {
+            Value = value;
+        }
     }
 }

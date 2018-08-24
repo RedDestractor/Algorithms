@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace DataParser.SyntaxTree
 {
-    public interface IDataValue
+    public interface IDataLiteral
     {
-
+        string Value { get; set; }
     }
 }

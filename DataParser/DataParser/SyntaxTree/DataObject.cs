@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataParser
+namespace DataParser.SyntaxTree
 {
-    class DataNode
+    class DataObject : IDataValue
     {
+        
     }
 }
