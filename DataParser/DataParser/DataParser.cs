@@ -47,7 +47,7 @@ namespace DataParser
 
         static readonly Parser<IDataValue> DataObject =
             from name in DataName
-            from colon in Parse.Char('=').Or(Parse.WhiteSpace).Many()
+            from colon in Parse.Char('=').Or(Parse.WhiteSpace).Many().Token()
             from _first in Parse.Char('{').Or(Parse.WhiteSpace).Many().Token()
             from value in DataMembers
             from _last in Parse.Char('}').Or(Parse.WhiteSpace).Many().Token()
@@ -75,7 +75,8 @@ namespace DataParser
 
         static readonly Parser<IEnumerable<IDataValue>> DataObjects = DataObject.DelimitedBy(Parse.LineEnd);
 
-        static readonly Parser<IEnumerable<IDataValue>> DataMembers = DataArray.DelimitedBy(Parse.LineEnd).Or(DataPair.DelimitedBy(Parse.LineEnd));
+        static readonly Parser<IEnumerable<IDataValue>> DataMembers = 
+            (DataObject.Or(DataArray).Or(DataPair)).DelimitedBy(Parse.LineEnd);
 
         static readonly Parser<IEnumerable<IDataValue>> DataRow = DataPair.DelimitedBy(Parse.WhiteSpace);        
 
