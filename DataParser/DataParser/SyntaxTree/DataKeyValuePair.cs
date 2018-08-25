@@ -9,9 +9,9 @@ namespace DataParser.SyntaxTree
     class DataKeyValuePair : IDataValue
     {
         public IDataLiteral Key { get; set; }
-        public IDataLiteral Value { get; set; }
+        public IDataValue Value { get; set; }
 
-        public DataKeyValuePair(IDataLiteral name, IDataLiteral value)
+        public DataKeyValuePair(IDataLiteral name, IDataValue value)
         {
             Key = name;
             Value = value;

@@ -1,3 +1,5 @@
-﻿type = "tetrahedron"
+﻿shape = { 
+type = "tetrahedron"
 lol = "kek"
 point = { x = "1" y = "0" z = "0" }
+}

@@ -46,7 +46,12 @@ namespace DataParser
             select new string(first.Concat(rest).ToArray());
 
         static readonly Parser<IDataValue> DataObject =
-            Parse.Ref(() => DataArray).Or(Parse.Ref(() => DataPair));
+            from name in DataName
+            from colon in Parse.Char('=').Or(Parse.WhiteSpace).Many()
+            from _first in Parse.Char('{').Or(Parse.WhiteSpace).Many().Token()
+            from value in DataMembers
+            from _last in Parse.Char('}').Or(Parse.WhiteSpace).Many().Token()
+            select new DataKeyValuePair(new DataLiteral(name), new DataArray(value));
 
         static readonly Parser<IDataLiteral> DataValue =
             from first in Parse.Char('"')
@@ -69,6 +74,8 @@ namespace DataParser
             select new DataKeyValuePair(new DataLiteral(name), val);
 
         static readonly Parser<IEnumerable<IDataValue>> DataObjects = DataObject.DelimitedBy(Parse.LineEnd);
+
+        static readonly Parser<IEnumerable<IDataValue>> DataMembers = DataArray.DelimitedBy(Parse.LineEnd).Or(DataPair.DelimitedBy(Parse.LineEnd));
 
         static readonly Parser<IEnumerable<IDataValue>> DataRow = DataPair.DelimitedBy(Parse.WhiteSpace);        
 
