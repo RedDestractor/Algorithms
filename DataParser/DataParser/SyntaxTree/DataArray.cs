@@ -10,14 +10,16 @@ namespace DataParser
     class DataArray : IDataValue
     {
         public List<IDataValue> Elements { get; set; }
+        public IDataLiteral Key { get; set; }
 
         public DataArray()
         {
             Elements = new List<IDataValue>();
         }
 
-        public DataArray(IEnumerable<IDataValue> elements)
+        public DataArray(IDataLiteral key, IEnumerable<IDataValue> elements)
         {
+            Key = key;
             Elements = new List<IDataValue>();
             if (elements != null) foreach (var e in elements) Elements.Add(e);
         }
