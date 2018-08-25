@@ -1,7 +1,7 @@
-﻿shape = { 
+shape = { 
 type = "tetrahedron"
 lol = "kek"
-dryn = { x = "1" y = "0" z = "0" }
-tebe = { x = "1" y = "0" z = "0" }
-vzad = { x = "1" y = "0" z = "0" }
+dryn = [ x = "1" y = "0" z = "0" ]
+tebe = [ x = "1" y = "0" z = "0" ]
+vzad = [ x = "1" y = "0" z = "0" ]
 }

@@ -34,11 +34,17 @@ namespace DataParser
             from first in Parse.Char('\\')
             from next in EnumerateInput(EscapeChars.ToArray(), c => Parse.Char(c))
             select ((next == 't') ? '\t' :
-                    (next == 'r') ? '\r' :
-                    (next == 'n') ? '\n' :
                     (next == 'f') ? '\f' :
                     (next == 'b') ? '\b' :
+                    (next == 'r') ? '\r' :
+                    (next == 'n') ? '\n' :
                     next);
+
+        static readonly Parser<char> JChar = Parse.AnyChar.Except(Parse.Char('"').Or(Parse.Char('\\'))).Or(ControlChar);
+
+        static readonly Parser<IDataValue> Value =
+            Parse.Ref(() => PairKeyArray)
+            .Or(Parse.Ref(() => PairKeyLiteral));
 
         static readonly Parser<IDataLiteral> DataName =
             from first in Parse.Letter.Or(Parse.Char('_')).Once()
@@ -47,42 +53,55 @@ namespace DataParser
 
         static readonly Parser<IDataValue> DataObject =
             from name in DataName
-            from colon in Parse.Char('=').Or(Parse.WhiteSpace).Many().Token()
-            from _first in Parse.Char('{').Or(Parse.WhiteSpace).Many().Token()
-            from value in DataMembers
-            from _last in Parse.Char('}').Or(Parse.WhiteSpace).Many().Token()
-            select new DataArray(name , value);
+            from colon in Parse.Char('=').Token()
+            from _first in Parse.Char('{').Token()
+            from value in Parse.Ref(() => PairKeyValueMembers)
+            from _last in Parse.Char('}').Token()
+            select new DataKeyValuePair(name, new DataArray(value));
 
-        static readonly Parser<IDataLiteral> DataValue =
+        static readonly Parser<IDataLiteral> DataLiteral =
             from first in Parse.Char('"')
-            from value in Parse.AnyChar.Except(Parse.Char('"').Or(ControlChar)).Many().Text()
+            from value in Parse.AnyChar.Except(Parse.Char('"')).Or(ControlChar).Or(Parse.Char('\\')).Many().Text()
             from last in Parse.Char('"')
             select new DataLiteral(value);
 
+        static readonly Parser<IDataValue> PairKeyArray =
+            from name in DataName
+            from colon in Parse.Char('=').Token()
+            from value in DataArray
+            select new DataKeyValuePair(name, value);
+
+        static readonly Parser<IDataValue> PairKeyLiteral =
+            from name in DataName
+            from colon in Parse.Char('=').Token()
+            from value in DataLiteral.Or(Parse.Ref(() => PairKeyArray))
+            select new DataKeyValuePair(name, value);
+
         static readonly Parser<IDataValue> DataArray =
-            from name in DataName
-            from colon in Parse.Char('=').Token()
-            from _ in Parse.Char('{').Token()
+            from _first in Parse.Char('[').Token()
             from elements in DataRow
-            from last in Parse.Char('}').Token()
-            select new DataArray(name, elements);
+            from _last in Parse.Char(']').Token()
+            select new DataArray(elements);
 
-        static readonly Parser<IDataValue> DataPair =
-            from name in DataName
-            from colon in Parse.Char('=').Token()
-            from val in DataArray.Or(DataValue)
-            select new DataKeyValuePair(name, val);
+        static readonly Parser<IEnumerable<IDataValue>> PairKeyValueMembers =
+            PairKeyLiteral.Or(PairKeyArray).DelimitedBy(Parse.LineEnd.Text());
+            //PairKeyLiteral.Or(PairKeyArray).DelimitedBy(Parse.Char(',').Token()));
+            //PairKeyLiteral.Or(PairKeyArray).DelimitedBy(Parse.Char('\n'));
+            //PairKeyLiteral.Or(PairKeyArray).DelimitedBy((Parse.String("\r\n").Text()));
 
-        static readonly Parser<IEnumerable<IDataValue>> DataObjects = DataObject.DelimitedBy(Parse.LineEnd);
 
-        static readonly Parser<IEnumerable<IDataValue>> DataMembers = 
-            DataArray.Or(DataPair).DelimitedBy(Parse.LineEnd);
+        static readonly Parser<IEnumerable<IDataValue>> DataRow = PairKeyLiteral.DelimitedBy(Parse.WhiteSpace);
 
-        static readonly Parser<IEnumerable<IDataValue>> DataRow = DataPair.DelimitedBy(Parse.WhiteSpace);        
-
-        public static IEnumerable<IDataValue> ParseData(string toParse)
+        public static IDataValue ParseData(string toParse)
         {
-            return DataObjects.Parse(toParse);
+            var lines = toParse.Split(
+                new[] { "\r\n", "\r", "\n" },
+                StringSplitOptions.None
+                );
+
+            var tmpToParse = String.Join(",", lines);
+
+            return DataObject.Parse(tmpToParse);
         }
     }
 }
