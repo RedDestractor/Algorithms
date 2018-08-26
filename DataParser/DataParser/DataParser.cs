@@ -40,12 +40,6 @@ namespace DataParser
                     (next == 'n') ? '\n' :
                     next);
 
-        static readonly Parser<char> JChar = Parse.AnyChar.Except(Parse.Char('"').Or(Parse.Char('\\'))).Or(ControlChar);
-
-        static readonly Parser<IDataValue> Value =
-            Parse.Ref(() => PairKeyArray)
-            .Or(Parse.Ref(() => PairKeyLiteral));
-
         static readonly Parser<IDataLiteral> DataName =
             from first in Parse.Letter.Or(Parse.Char('_')).Once()
             from rest in AllowedChar.Many()
@@ -84,24 +78,13 @@ namespace DataParser
             select new DataArray(elements);
 
         static readonly Parser<IEnumerable<IDataValue>> PairKeyValueMembers =
-            PairKeyLiteral.Or(PairKeyArray).DelimitedBy(Parse.LineEnd.Text());
-            //PairKeyLiteral.Or(PairKeyArray).DelimitedBy(Parse.Char(',').Token()));
-            //PairKeyLiteral.Or(PairKeyArray).DelimitedBy(Parse.Char('\n'));
-            //PairKeyLiteral.Or(PairKeyArray).DelimitedBy((Parse.String("\r\n").Text()));
-
+            DataObject.Or(PairKeyLiteral).Or(PairKeyArray).DelimitedBy(Parse.Char(',').Token());
 
         static readonly Parser<IEnumerable<IDataValue>> DataRow = PairKeyLiteral.DelimitedBy(Parse.WhiteSpace);
 
         public static IDataValue ParseData(string toParse)
         {
-            var lines = toParse.Split(
-                new[] { "\r\n", "\r", "\n" },
-                StringSplitOptions.None
-                );
-
-            var tmpToParse = String.Join(",", lines);
-
-            return DataObject.Parse(tmpToParse);
+            return DataObject.Parse(toParse);
         }
     }
 }
