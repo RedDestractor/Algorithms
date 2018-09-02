@@ -8,13 +8,13 @@
 
 Пример файла:  
 shape = {  
-type = "tetrahedron"  
+type = "tetrahedron",  
 vertices = { 
-point = { x = "1" y = "0" z = "0" }  
-point = { x = "0" y = "1" z = "0" }  
-point = { x = "0" y = "0" z = "1" }  
+point = { x = "1" y = "0" z = "0" },  
+point = { x = "0" y = "1" z = "0" },  
+point = { x = "0" y = "0" z = "1" },  
 point = { x = "1" y = "1" z = "1" }  
-}  
+},  
 color = { r = "0xFF" g = "0x00" b = "0x80" alpha = "0x80" }  
 }  
 
@@ -26,4 +26,3 @@ color = { r = "0xFF" g = "0x00" b = "0x80" alpha = "0x80" }
 
 Реализация:  
 Для выполнения задачи используется библиотека Sprache.  
-Coming Soon
